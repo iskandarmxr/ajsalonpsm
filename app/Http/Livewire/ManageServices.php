@@ -1,0 +1,177 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use Livewire\Component;
+use App\Models\Service;
+use Livewire\WithPagination;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+
+class ManageServices extends Component
+
+{
+
+    use withPagination;
+    use withFileUploads;
+
+    public $confirmingServiceDeletion = false;
+    public $confirmingServiceAdd = false;
+    public $confirmingServiceEdit = false;
+
+    public $search;
+
+    protected $queryString = [
+        'search' => ['except' => ''],
+    ];
+
+    public $newService, $image;
+
+    protected function rules()
+    {
+        return [
+            'newService.name' => 'required|string|min:1|max:255',
+            'newService.slug' => 'nullable',
+            'newService.description' => 'required|string|min:1|max:255',
+            'newService.image' => 'nullable',
+            'newService.price' => 'required|numeric|min:0',
+            'newService.category_id' => 'required|exists:categories,id',
+            'newService.notes' => 'nullable|string',
+            'newService.allergens' => 'nullable|string',
+            'newService.benefits' => 'nullable|string',
+            'newService.aftercare_tips' => 'nullable|string',
+            'newService.cautions' => 'nullable|string',
+            'newService.is_hidden' => 'boolean',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048'
+        ];
+    }
+
+    public function render()
+    {
+
+        $services = Service::when($this->search, function ($query) {
+                $query->where('name', 'like', '%'.$this->search.'%')
+                    ->orWhere('slug', 'like', '%'.$this->search.'%')
+                    ->orWhere('description', 'like', '%'.$this->search.'%')
+                ->orWhere('price', 'like', '%'.$this->search.'%')
+                ->orWhereHas('category', function ($query) {
+                    $query->where('name', 'like', '%'.$this->search.'%');
+                });
+            })
+            ->orderByPrice('PriceLowToHigh')
+            ->with('category')
+            ->paginate(10);
+
+        $categories = \App\Models\Category::all();
+
+        return view('livewire.manage-services', compact('services'), compact('categories'));
+    }
+
+    public function confirmServiceDeletion($id)
+    {
+        $this->confirmingServiceDeletion = $id;
+
+
+    }
+
+    public function deleteService(Service $service)
+    {
+        $service->delete();
+
+        session()->flash('message', 'Service successfully deleted.');
+        $this->confirmingServiceDeletion = false;
+
+        $this->emit('servicesUpdated');
+    }
+
+
+    public function confirmServiceAdd() {
+
+        $this->reset(['newService']);
+        $this->reset(['image']);
+        $this->confirmingServiceAdd = true;
+
+
+    }
+
+    public function confirmServiceEdit( Service $newService ) {
+        $this->newService = $newService;
+
+        $this->image = $newService->image;
+
+        $this->confirmingServiceAdd = true;
+
+        $this->emit('servicesUpdated');
+    }
+
+    public function mount()
+    {
+        if (!auth()->user() || auth()->user()->role->name !== 'Manager') {
+            abort(403, 'Only managers can manage services.');
+        }
+        return;
+    }
+
+    public function saveService() {
+        $validatedData = $this->validate();
+
+        try {
+            if (isset($this->newService['id'])) {
+                // Update existing service
+                $service = Service::findOrFail($this->newService['id']);
+                
+                if ($this->image && !is_string($this->image)) {
+                    // Handle new image upload
+                    $this->image->store('images', 'public');
+                    $service->image = $this->image->hashName();
+                }
+                
+                $service->update([
+                    'name' => $this->newService['name'],
+                    'slug' => \Str::slug($this->newService['name']),
+                    'description' => $this->newService['description'],
+                    'price' => $this->newService['price'],
+                    'category_id' => $this->newService['category_id'],
+                    'is_hidden' => $this->newService['is_hidden'] ?? false,
+                    'allergens' => $this->newService['allergens'] ?? null,
+                    'cautions' => $this->newService['cautions'] ?? null,
+                    'benefits' => $this->newService['benefits'] ?? null,
+                    'aftercare_tips' => $this->newService['aftercare_tips'] ?? null,
+                    'notes' => $this->newService['notes'] ?? null
+                ]);
+            } else {
+                // Create new service
+                $imageName = null;
+                if ($this->image) {
+                    $this->image->store('images', 'public');
+                    $imageName = $this->image->hashName();
+                }
+    
+                Service::create([
+                    'name' => $this->newService['name'],
+                    'slug' => \Str::slug($this->newService['name']),
+                    'description' => $this->newService['description'],
+                    'price' => $this->newService['price'],
+                    'category_id' => $this->newService['category_id'],
+                    'is_hidden' => $this->newService['is_hidden'] ?? false,
+                    'allergens' => $this->newService['allergens'] ?? null,
+                    'cautions' => $this->newService['cautions'] ?? null,
+                    'benefits' => $this->newService['benefits'] ?? null,
+                    'aftercare_tips' => $this->newService['aftercare_tips'] ?? null,
+                    'notes' => $this->newService['notes'] ?? null,
+                    'image' => $imageName
+                ]);
+            }
+    
+            session()->flash('message', isset($this->newService['id']) ? 'Service successfully updated.' : 'Service successfully added.');
+            $this->confirmingServiceAdd = false;
+            $this->reset(['newService', 'image']);
+    
+        } catch (\Exception $e) {
+            session()->flash('error', 'Error saving service: ' . $e->getMessage());
+            \Log::error('Service creation error: ' . $e->getMessage());
+        }
+        $this->emit('servicesUpdated');
+    }
+}
