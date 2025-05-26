@@ -75,6 +75,7 @@ class CustomerLoyaltyPoints extends Component
             $loyaltyPoints->redeemPoints($reward->points_required, $reward->id);
             $this->emit('pointsUpdated');
             session()->flash('message', "Reward '{$reward->name}' redeemed successfully!");
+            $this->loadTransactions(); // Refresh the transactions list
         } else {
             session()->flash('error', 'Insufficient points for this reward.');
         }
