@@ -1,5 +1,10 @@
+<header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-4 px-2 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-gray-900 text-center">Users</h2>
+        </div>
+    </header>
 <div class="flex justify-between mx-7 pt-4">
-                <h2 class="text-2xl font-bold">Users</h2>
+                <h2 class="text-2xl font-bold"></h2>
                 <div class="flex items-center gap-4">
                     <div class="relative">
                         <x-button wire:click="exportUsersToCSV" class="px-5 py-2 text-white bg-green-500 rounded-md hover:bg-green-600">

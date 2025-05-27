@@ -5,14 +5,13 @@
 @endphp
 <x-dashboard>
 
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-2 px-1 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold gap-4 p-2 text-center">Dashboard <span class="text-sm text-gray-500 ml-2">Overview</span></h2>
+        </div>
+    </header>
 
     <div>
-        <h2 class="text-2xl font-bold gap-4 p-4">Dashboard <span class="text-sm text-gray-500 ml-2">Overview</span></h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
             <!-- Total Customers -->
             <div class="bg-pink-500 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-pink-600 text-white font-medium group">

@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Reward;
 use App\Models\LoyaltySetting;
 use App\Models\LoyaltyTransaction;
+use App\Jobs\SendRewardRedeemedJob;
 use Livewire\Component;
 
 class CustomerLoyaltyPoints extends Component
@@ -72,7 +73,17 @@ class CustomerLoyaltyPoints extends Component
         }
     
         if ($loyaltyPoints->canRedeem($reward->points_required)) {
+            $pointsRemaining = max(0, $loyaltyPoints->points_balance - $reward->points_required);
             $loyaltyPoints->redeemPoints($reward->points_required, $reward->id);
+
+            // Dispatch the notification job
+            SendRewardRedeemedJob::dispatch(
+                $user,
+                $reward,
+                $reward->points_required,
+                $pointsRemaining
+            );
+
             $this->emit('pointsUpdated');
             session()->flash('message', "Reward '{$reward->name}' redeemed successfully!");
             $this->loadTransactions(); // Refresh the transactions list

@@ -42,8 +42,8 @@ class ManageCategories extends Component
         $this->isEditing = true;
         $this->confirmingCategoryAdd = true;
     }
-    public function confirmCategoryDeletion() {
-        $this->confirmingCategoryDeletion = true;
+    public function confirmCategoryDeletion($categoryId) {
+        $this->confirmingCategoryDeletion = $categoryId;
     }
 
     public function saveCategory() {
@@ -63,9 +63,11 @@ class ManageCategories extends Component
         $this->category = null;
     }
 
-    public function deleteCategory(Category $categoryId) {
-        $this->category = $categoryId;
-        $this->category->delete();
+    public function deleteCategory() {
+        $category = Category::find($this->confirmingCategoryDeletion);
+        if ($category) {
+            $category->delete();
+        }
         $this->confirmingCategoryDeletion = false;
     }
 

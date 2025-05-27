@@ -2,12 +2,13 @@
     use App\Enums\UserRolesEnum;
     $userRole = Auth::User()?->role()->first()->name;
 @endphp
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 z-50 sticky top-0">
+<nav x-data="{ open: false }" @click.outside="open = false" @navigate.window="open = false" class="bg-white border-b border-gray-100 z-50 sticky top-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <div class="flex">
+            <!-- Change this div's class to center content on mobile -->
+            <div class="flex flex-1 justify-center sm:justify-start">
                 <!-- Logo -->
-               @if(isset($mainLogoRoute))
+                @if(isset($mainLogoRoute))
                     @php
                         {{ $appMarkRoute = $mainLogoRoute;}}
                     @endphp
@@ -15,17 +16,13 @@
                     @php
                         {{ $appMarkRoute = route('dashboard'); }}
                     @endphp
-
-               @endif
-
+                @endif
 
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ $appMarkRoute }}">
+                    <a href="{{ $appMarkRoute }}" class="flex items-center">
                         <x-application-mark class="block h-9 w-auto" />
                     </a>
                 </div>
-
-
             </div>
             <div class="hidden sm:flex sm:items-center sm:ml-6">
 
@@ -42,9 +39,11 @@
 
                     <!-- Auth Navigation Links -->
                     @auth
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
+                        @if(Auth::user()->role_id == UserRolesEnum::Customer->value)
+                            <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                                {{ __('Dashboard') }}
+                            </x-nav-link>
+                        @endif
                     @else
                     <x-nav-link href="{{ route('login') }}" :active="request()->routeIs('login')">
                         {{ __('Login') }}
@@ -180,13 +179,13 @@
             </div>
 
             <!-- Hamburger -->
-            <div class="-mr-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+            <div class="-mr-2 flex items-center sm:hidden"> 
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"> 
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7ZM12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                </button>
+                </button> 
             </div>
         </div>
     </div>
@@ -196,7 +195,7 @@
 
         <div class="pt-2 pb-3 space-y-1">
 
-            @if(Auth::check() && Auth::user()->role_id !== UserRolesEnum::Manager->value && Auth::user()->role_id !== UserRolesEnum::Staff->value)
+            <!-- @if(Auth::check() && Auth::user()->role_id !== UserRolesEnum::Manager->value && Auth::user()->role_id !== UserRolesEnum::Staff->value)
                 <x-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
                     {{ __('Home') }}
                 </x-responsive-nav-link>
@@ -208,7 +207,7 @@
 
             <x-responsive-nav-link href="#">
                 {{ __('Deals') }}
-            </x-responsive-nav-link>
+            </x-responsive-nav-link> -->
 
 
 
@@ -219,9 +218,9 @@
             </x-responsive-nav-link>
             @endif
 
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+            <!-- <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+            </x-responsive-nav-link> -->
 
             @else
             <x-responsive-nav-link href="{{ route('login') }}" :active="request()->routeIs('login')">

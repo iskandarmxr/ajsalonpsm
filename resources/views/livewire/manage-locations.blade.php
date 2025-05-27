@@ -1,7 +1,12 @@
 <div>
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-4 px-2 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-gray-900 text-center">Branch Location</h2>
+        </div>
+    </header>
     <div>
-        <div class="flex justify-between mx-7">
-            <h2 class="text-2xl font-bold">Locations</h2>
+        <div class="flex justify-between mx-7 pt-4">
+            <h2 class="text-2xl font-bold"></h2>
 
             <x-button wire:click="confirmLocationAdd" class="px-5 py-2 text-white bg-pink-500 rounded-md hover:bg--600">
                 <span class="flex items-center gap-2">
@@ -45,7 +50,7 @@
             <table class="w-full border-collapse bg-white text-left text-sm text-gray-500 overflow-x-scroll min-w-screen">
                 <thead class="bg-gray-50">
                 <tr>
-                    <th scope="col" class="pl-6 py-4 font-medium text-gray-900">Id</th>
+                    <th scope="col" class="pl-6 py-4 font-medium text-gray-900">ID</th>
                     <th scope="col" class="px-4 py-4 font-medium text-gray-900">Name</th>
                     <th scope="col" class="px-4 py-4 font-medium text-gray-900">Address</th>
                     <th scope="col" class="px-4 py-4 font-medium text-gray-900">Telephone Number</th>

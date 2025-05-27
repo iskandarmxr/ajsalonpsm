@@ -1,6 +1,10 @@
 <x-dashboard>
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-4 px-2 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-gray-900 text-center">Loyalty Program Management</h2>
+        </div>
+    </header>
     <div class="p-4">
-        <h2 class="text-2xl font-bold mb-4">Loyalty Program Management</h2>
         
         <!-- Stats Cards Row -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">

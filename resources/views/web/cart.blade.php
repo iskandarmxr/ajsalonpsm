@@ -20,59 +20,60 @@
             <div class="flex flex-col md:flex-row gap-4">
                 <div class="md:w-3/4">
                     <div class="bg-white rounded-lg shadow-md p-6 mb-4">
-                        <table class="w-full">
-                            <thead>
-                            <tr>
-                                <th class="text-left font-semibold">Service</th>
-                                <th class="text-left font-semibold">Price</th>
-                                <th class="text-left font-semibold">Date</th>
-                                <th class="text-left font-semibold">Time Slot</th>
-                                <th class="text-left font-semibold">Location</th>
-
-
-                                <th class="text-left font-semibold"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @if(isset($cart->services))
-                            @foreach($cart->services as $service)
+                        <div class="overflow-x-auto w-full">
+                            <table class="w-full min-w-max">
+                                <thead>
                                 <tr>
-                                <td class="py-4">
-                                    <div class="flex items-center">
-                                        <img class="h-16 w-16 mr-4" src="{{ asset('storage/images/' . $service->image) }}" alt="{{ $service->name . ' image'}}">
-                                        <span class="font-semibold"> {{ $service->name }}</span>
-                                    </div>
-                                </td>
-                                    <td class="py-4">RM {{ number_format($service->price, 2, '.', ',') }}</td>
-                                    <td class="py-4">
-                                      {{ $service->pivot->date}}
+                                    <th class="text-left font-semibold px-6 py-3">Service</th>
+                                    <th class="text-left font-semibold px-6 py-3">Price</th>
+                                    <th class="text-left font-semibold px-6 py-3">Date</th>
+                                    <th class="text-left font-semibold px-6 py-3">Time Slot</th>
+                                    <th class="text-left font-semibold px-6 py-3">Location</th>
+                                    <th class="text-left font-semibold px-6 py-3"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @if(isset($cart->services))
+                                @foreach($cart->services as $service)
+                                    <tr>
+                                    <td class="py-4 px-6">
+                                        <div class="flex items-center">
+                                            <img class="h-16 w-16 mr-4" src="{{ asset('storage/images/' . $service->image) }}" alt="{{ $service->name . ' image'}}">
+                                            <span class="font-semibold"> {{ $service->name }}</span>
+                                        </div>
                                     </td>
-                                    <td class="py-4">
-                                        {{ date('g:i a', strtotime( $service->pivot->start_time)) }}
-                                          -
-                                        {{ date('g:i a', strtotime( $service->pivot->end_time)) }}
-                                    </td>
-                                    <td class="py-4">
-                                        {{ $service->locations->first()->name }}
-                                    </td>
-                                    <form action="{{ route('cart.remove-item', [
-                                        'cart_service_id' => $service->pivot->id,
-                                        ]) }}"
-                                        method="post">
-                                        @csrf
-                                        <td class="py-4">
-                                            <button type="submit" class="text-red-500 hover:text-red-600 font-semibold">Remove</button>
+                                        <td class="py-4 px-6">RM {{ number_format($service->price, 2, '.', ',') }}</td>
+                                        <td class="py-4 px-6">
+                                          {{ $service->pivot->date}}
                                         </td>
-                                    </form>
-                                </tr>
-                            @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="5" class="text-center pt-8">No items in cart</td>
-                                </tr>
-                            @endif
-                            </tbody>
-                        </table>
+                                        <td class="py-4 px-6">
+                                            {{ date('g:i a', strtotime( $service->pivot->start_time)) }}
+                                              -
+                                            {{ date('g:i a', strtotime( $service->pivot->end_time)) }}
+                                        </td>
+                                        <td class="py-4 px-6">
+                                            <!-- {{ $service->locations->first()->name }} -->
+                                            {{ App\Models\Location::find($service->pivot->location_id)->name }}
+                                        </td>
+                                        <form action="{{ route('cart.remove-item', [
+                                            'cart_service_id' => $service->pivot->id,
+                                            ]) }}"
+                                            method="post">
+                                            @csrf
+                                            <td class="py-4 px-6">
+                                                <button type="submit" class="text-red-500 hover:text-red-600 font-semibold">Remove</button>
+                                            </td>
+                                        </form>
+                                    </tr>
+                                @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="5" class="text-center pt-8">No items in cart</td>
+                                    </tr>
+                                @endif
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="md:w-1/4">

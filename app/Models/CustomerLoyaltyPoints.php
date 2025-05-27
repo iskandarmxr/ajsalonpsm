@@ -58,7 +58,7 @@ class CustomerLoyaltyPoints extends Model
     public function redeemPoints($points, $rewardId = null)
     {
         if ($this->canRedeem($points)) {
-            $this->points_balance -= $points;
+            $this->points_balance = max(0, $this->points_balance - $points);
             $this->points_redeemed += $points;
             $this->save();
 

@@ -22,6 +22,9 @@ use App\Http\Controllers\CartController;
 
 Route::get('/', [App\Http\Controllers\HomePageController::class, 'index'])->name('home');
 
+Route::get('/about', function () {
+    return view('web.about');
+})->name('about');
 
 Route::get('/services', [App\Http\Controllers\DisplayService::class, 'index'])->name('services');
 Route::get('/services/{slug}', [App\Http\Controllers\DisplayService::class, 'show'])->name('view-service');

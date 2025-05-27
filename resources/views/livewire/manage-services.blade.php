@@ -1,6 +1,11 @@
 <div>
-    <div class="flex justify-between mx-7">
-        <h2 class="text-2xl font-bold">Services</h2>
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-4 px-2 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-gray-900 text-center">Hair Services</h2>
+        </div>
+    </header>
+    <div class="flex justify-between mx-7 pt-4">
+        <h2 class="text-2xl font-bold"></h2>
 
         <x-button wire:click="confirmServiceAdd" class="px-5 py-2 text-white bg-pink-500 rounded-md hover:bg--600">
             <div class="flex items-center gap-2">
@@ -42,14 +47,14 @@
         <table class="w-full border-collapse bg-white text-left text-sm text-gray-500 overflow-x-scroll min-w-screen">
           <thead class="bg-gray-50">
             <tr>
-              <th scope="col" class="pl-6 py-4 font-medium text-gray-900">Id</th>
-              <th scope="col" class="px-4 py-4 font-medium text-gray-900">Service</th>
-              <th scope="col" class="px-6 py-4 font-medium text-gray-900">Photo</th>
-              <th scope="col" class="px-6 py-4 font-medium text-gray-900">Description</th>
-              <th scope="col" class="px-6 py-4 font-medium text-gray-900">Price</th>
-              <th scope="col" class="px-6 py-4 font-medium text-gray-900">Category</th>
-              <th scope="col" class="px-6 py-4 font-medium text-gray-900">Visibility</th>
-              <th scope="col" class="px-6 py-4 font-medium text-gray-900">Actions</th>
+              <th scope="col" class="pl-6 py-4 font-medium text-gray-900 border-r border-gray-200">ID</th>
+              <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200">Service</th>
+              <th scope="col" class="px-6 py-4 font-medium text-gray-900 border-r border-gray-200">Photo</th>
+              <th scope="col" class="px-6 py-4 font-medium text-gray-900 border-r border-gray-200">Description</th>
+              <th scope="col" class="px-6 py-4 font-medium text-gray-900 border-r border-gray-200">Price (RM)</th>
+              <th scope="col" class="px-6 py-4 font-medium text-gray-900 border-r border-gray-200">Category</th>
+              <th scope="col" class="px-6 py-4 font-medium text-gray-900 border-r border-gray-200">Visibility</th>
+              <th scope="col" class="px-6 py-4 font-medium text-gray-900 border-r border-gray-200">Actions</th>
               <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
             </tr>
           </thead>
@@ -57,14 +62,14 @@
 
             @foreach ($services as $service)
             <tr class="hover:bg-gray-50">
-                <td class="pl-6 py-4  max-w-0">{{ $service->id }}</td>
+                <td class="pl-6 py-4  max-w-0 border-r border-gray-200">{{ $service->id }}</td>
 
                 <th class="flex gap-3 px-6 py-4 font-normal text-gray-900  max-w-0">
 
                     <div class="font-medium text-gray-700">{{ $service->name}}</div>
 
                 </th>
-                <td class="px-6 py-4 max-w-0">
+                <td class="px-6 py-4 max-w-0 border-r border-gray-200">
                     <div class="font-medium text-gray-700">
                         @if($service->image)
                             <img src="{{ asset('storage/images/' . $service->image) }}" alt="{{ $service->name }}" class="mt-4 w-20">
@@ -74,16 +79,16 @@
                     </div>
                 </td>
 
-                <td class="px-6 py-4 max-w-0">{{ $service->description }}</td>
+                <td class="px-6 py-4 max-w-0 border-r border-gray-200">{{ $service->description }}</td>
 
-                <td class="px-6 py-4  max-w-0">
+                <td class="px-6 py-4  max-w-0 border-r border-gray-200">
                     <div class="font-medium text-gray-700">{{ $service->price}}</div>
                 </td>
-                <td class="px-6 py-4  max-w-0">
+                <td class="px-6 py-4  max-w-0 border-r border-gray-200">
 {{--                    @dd($service->category->name)--}}
                     <div class="font-medium text-gray-700">{{ $service->category?->name}}</div>
                 </td>
-                <td class="px-6 py-4 ">
+                <td class="px-6 py-4 border-r border-gray-200">
                     <div>
 
                     @if($service->is_hidden == true)
@@ -104,7 +109,7 @@
 
                     </div>
                 </td>
-                <td>
+                <td class="border-r border-gray-200">
                 <div class="flex gap-2">
                         <a href="{{ route('view-service', ['slug' => $service->slug ]) }}" 
                            class="p-1.5 rounded-full text-blue-600 hover:bg-blue-50 transition-colors"

@@ -9,8 +9,14 @@
             <x-dashboard.navlinks />
         </x-slot>
 
-        <!-- Add Font Awesome CDN for icons -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+        <!-- Mobile toggle button with hamburger style -->
+        <div class="-mr-2 flex items-center lg:hidden fixed top-4 left-4 z-50">
+            <button class="mobile-sidebar-toggle inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                    <path class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
 
         <style>
             :root {
@@ -224,6 +230,11 @@
                 <div class="sidebar-content">
                     {{-- User Role 1= Admin, 2 = Employee --}}
                     @if(Auth::user()->role_id == UserRolesEnum::Customer->value)
+                    <a href="{{ route('home') }}" 
+                        class="sidebar-link {{ request()->routeIs('home') ? 'active' : '' }}">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="hide-on-collapse">Home</span>
+                    </a>
                     <a href="{{ route('appointments.history') }}" 
                         class="sidebar-link {{ request()->routeIs('appointments.history') ? 'active' : '' }}">
                         <i class="fas fa-clock"></i>

@@ -140,48 +140,50 @@
                         </div>
                     </div>
                     
-                        <table id="transactionHistory" class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r">Type</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r">Points</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r">Description</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r">Date</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach(auth()->user()->loyaltyTransactions()->latest()->get() as $transaction)
-                                <tr>
-                                    <td class="px-1 py-1 whitespace-nowrap border-r">
-                                        <div class="flex items-center">
-                                            <div class="bg-{{ $transaction->type === 'earn' ? 'green' : 'red' }}-100 p-2 rounded-full mr-3">
-                                                <svg class="w-5 h-5 text-{{ $transaction->type === 'earn' ? 'green' : 'red' }}-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    @if($transaction->type === 'earn')
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                                    @else
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
-                                                    @endif
-                                                </svg>
+                        <div class="overflow-x-auto">
+                            <table id="transactionHistory" class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r">Type</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r">Points</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r">Description</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    @foreach(auth()->user()->loyaltyTransactions()->latest()->get() as $transaction)
+                                    <tr>
+                                        <td class="px-1 py-1 whitespace-nowrap border-r">
+                                            <div class="flex items-center">
+                                                <div class="bg-{{ $transaction->type === 'earn' ? 'green' : 'red' }}-100 p-2 rounded-full mr-3">
+                                                    <svg class="w-5 h-5 text-{{ $transaction->type === 'earn' ? 'green' : 'red' }}-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        @if($transaction->type === 'earn')
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                                        @else
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                                        @endif
+                                                    </svg>
+                                                </div>
+                                                {{ ucfirst($transaction->type) }}
                                             </div>
-                                            {{ ucfirst($transaction->type) }}
-                                        </div>
-                                    </td>
-                                    <td class="px-1 py-1 whitespace-nowrap border-r text-{{ $transaction->type === 'earn' ? 'green' : 'red' }}-500">
-                                        {{ $transaction->type === 'earn' ? '+' : '' }}{{ $transaction->points }}
-                                    </td>
-                                    <td class="px-1 py-1 text-sm text-left whitespace-nowrap border-r">{{ $transaction->description }}
-                                        @if($transaction->type === 'earn' && $transaction->expires_at)
-                                            <span class="text-gray-500 text-xs">
-                                                (Expires: {{ $transaction->expires_at->format('M d, Y') }})
-                                            </span>
-                                        @endif
-                                    </td>
-                                    <td class="px-1 py-1 text-sm text-left whitespace-nowrap">{{ $transaction->created_at->diffForHumans() }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    
+                                        </td>
+                                        <td class="px-1 py-1 whitespace-nowrap border-r text-{{ $transaction->type === 'earn' ? 'green' : 'red' }}-500">
+                                            {{ $transaction->type === 'earn' ? '+' : '' }}{{ $transaction->points }}
+                                        </td>
+                                        <td class="px-1 py-1 text-sm text-left whitespace-nowrap border-r">{{ $transaction->description }}
+                                            @if($transaction->type === 'earn' && $transaction->expires_at)
+                                                <span class="text-gray-500 text-xs">
+                                                    (Expires: {{ $transaction->expires_at->format('M d, Y') }})
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td class="px-1 py-1 text-sm text-left whitespace-nowrap">{{ $transaction->created_at->diffForHumans() }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        
+                    </div>
                 </div>
             </div>
         </div>
@@ -204,7 +206,7 @@
         </div>
 
         <!-- Reward Redemption Modal -->
-        <div 
+        <!-- <div 
             x-show="showModal" 
             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
             x-transition:enter="transition ease-out duration-300"
@@ -236,7 +238,7 @@
                         </div>
                         
                         <div class="mt-4 bg-gray-100 rounded-lg p-4 flex items-center justify-center">
-                            <!-- Reward image placeholder -->
+
                             <svg class="w-24 h-24 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
                             </svg>
@@ -286,9 +288,9 @@
                         </p>
                         
                         <div class="bg-white border-2 border-gray-200 p-4 rounded-lg inline-block">
-                            <!-- QR Code for staff to scan -->
+
                             <svg class="w-64 h-64" viewBox="0 0 100 100">
-                                <!-- Simple QR code placeholder -->
+
                                 <rect x="5" y="5" width="90" height="90" fill="none" stroke="#000" stroke-width="1"/>
                                 <path d="M15,15 h25 v25 h-25 z M60,15 h25 v25 h-25 z M15,60 h25 v25 h-25 z M45,45 h10 v10 h-10 z M60,60 h5 v5 h-5 z M70,60 h5 v5 h-5 z M60,70 h5 v5 h-5 z M70,70 h5 v5 h-5 z M80,60 h5 v5 h-5 z M60,80 h5 v5 h-5 z M70,80 h5 v5 h-5 z M80,80 h5 v5 h-5 z" fill="#000"/>
                             </svg>
@@ -296,7 +298,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
