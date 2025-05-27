@@ -1,4 +1,4 @@
-# Laravel based booking + CRM for Salon Bliss
+# AJ Hair Salon Appointment Booking Management System (Bachelor's Degree Project)
 
 <p align="center"><img src="readme-assets/screenshots/logo-readme.png" width="400" alt="Laravel Logo"></p>
 
