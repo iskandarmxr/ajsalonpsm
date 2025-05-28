@@ -48,6 +48,7 @@
             </div>
         </div>
     </div>
+    <x-footer />
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminDashboardHomeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ChatBotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,9 @@ use App\Http\Controllers\CartController;
 //Route::get('/test', [App\Http\Controllers\AdminDashboardHome::class, 'index'])->name('test');
 
 Route::get('/', [App\Http\Controllers\HomePageController::class, 'index'])->name('home');
+
+// Route::post('/chat', [ChatBotController::class, 'chat'])->name('chat');
+// Route::post('/chat-with-image', [ChatBotController::class, 'chatWithImage'])->name('chat.image');
 
 Route::get('/about', function () {
     return view('web.about');

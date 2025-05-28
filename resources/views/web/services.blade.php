@@ -31,5 +31,6 @@
     {{--    </div>--}}
     {{--    --}}
     <livewire:customer-services-view />
+    <x-footer />
 
 </x-app-layout>

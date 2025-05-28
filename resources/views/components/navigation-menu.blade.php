@@ -251,6 +251,13 @@
                 </div>
 
                 <div class="mt-3 space-y-1">
+                    <x-responsive-nav-link href="{{ route('services') }}" :active="request()->routeIs('services')">
+                        {{ __('Hair Services') }}
+                    </x-responsive-nav-link>
+
+                    <x-responsive-nav-link href="{{ route('hairstyles') }}" :active="request()->routeIs('hairstyles')">
+                        {{ __('Hairstyles') }}
+                    </x-responsive-nav-link>
                     <!-- Account Management -->
                     <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                         {{ __('Profile') }}
