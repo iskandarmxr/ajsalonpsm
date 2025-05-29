@@ -1,37 +1,50 @@
 <div>
-    <div class="flex justify-between mx-7">
-        <h2 class="text-2xl font-bold">Hairstyles</h2>
+    @if(session()->has('message'))
+        <div class="px-4 py-3 rounded relative {{ session('message_type') == 'error' ? 'bg-red-100 border border-red-400 text-red-700' : 'bg-green-100 border border-green-400 text-green-700' }}">
+            {{ session('message') }}
+        </div>
+    @endif
+    <div class="flex justify-between mx-7 pt-4">
+        <h2 class="text-2xl font-bold"></h2>
 
-        <x-button wire:click="$set('showModal', true)" class="px-5 py-2 text-white bg-pink-500 rounded-md hover:bg-pink-600">
-            <div class="flex items-center gap-2">
-                <span class="flex items-center justify-center w-5 h-5 rounded-full bg-white text-pink-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-                </span>
-                <span>Add Hairstyle</span>
-            </div>
-        </x-button>
+        <div class="flex items-center gap-4">
+            <x-button wire:click="exportToCsv" class="px-5 py-2 text-white bg-green-500 rounded-md hover:bg-green-600">
+                    <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>Export to CSV</span>
+                    </div>
+                </x-button>
+            <x-button wire:click="$set('showModal', true)" class="px-5 py-2 text-white bg-pink-500 rounded-md hover:bg-pink-600">
+                <div class="flex items-center gap-2">
+                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-white text-pink-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                    </span>
+                    <span>Add Hairstyle</span>
+                </div>
+            </x-button>
+        </div>
     </div>
 
     <div class="overflow-auto rounded-lg border border-gray-200 shadow-md m-5">
-        <div class="w-1/3 float-right m-4">
-            <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
-            <div class="relative">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                    </svg>
-                </div>
-                <input type="search" wire:model="search" id="default-search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search Hairstyles...">
-                <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-pink-600 hover:bg-pink-700 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-4 py-2">Search</button>
+        <div class="w-full md:w-1/3 float-none md:float-right m-4">
+                <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                        </svg>
+                    </div>
+                    <input type="search" wire:model="search" id="default-search" name="search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search Hairstyle...">                </div>
             </div>
-        </div>
 
         <table class="w-full border-collapse bg-white text-left text-sm text-gray-500 overflow-x-scroll min-w-screen">
             <thead class="bg-gray-50">
                 <tr>
-                    <th scope="col" class="pl-6 py-4 font-medium text-gray-900">Id</th>
+                    <th scope="col" class="pl-6 py-4 font-medium text-gray-900">ID</th>
                     <th scope="col" class="px-4 py-4 font-medium text-gray-900">Name</th>
                     <th scope="col" class="px-6 py-4 font-medium text-gray-900">Image</th>
                     <th scope="col" class="px-6 py-4 font-medium text-gray-900">Description</th>
@@ -49,7 +62,7 @@
                                  class="h-20 w-20 object-cover rounded-md">
                         </td>
                         <td class="px-6 py-4">
-                            <div class="max-h-32 overflow-y-auto whitespace-pre-wrap break-words">
+                            <div class="max-h-32 overflow-y-auto break-words">
                                 {{ $hairstyle->description }}
                             </div>
                         </td>

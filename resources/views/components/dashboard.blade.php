@@ -324,17 +324,17 @@
 
             <!-- Main Content -->
             <div class="main-content">
-                @if (session('errormsg'))
+                <!-- @if (session('errormsg'))
                     <div class="mb-4 font-medium text-sm text-red-600">
                         {{ session('errormsg') }}
                     </div>
-                @endif
+                @endif -->
 
-                @if (session('success'))
+                <!-- @if (session('success'))
                     <div class="mb-4 font-medium text-sm text-green-600">
                         {{ session('success') }}
                     </div>
-                @endif
+                @endif -->
 
                 <div>
                     {{ $slot }}

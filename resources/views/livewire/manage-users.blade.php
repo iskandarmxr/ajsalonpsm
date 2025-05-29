@@ -1,19 +1,28 @@
-<header class="bg-white shadow">
-        <div class="max-w-7xl mx-auto py-4 px-2 sm:px-6 lg:px-8">
-            <h2 class="text-2xl font-bold text-gray-900 text-center">Users</h2>
-        </div>
-    </header>
+<!-- Add the success message here -->
+@if(session('activate'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ session('activate') }}</span>
+    </div>
+@endif
+@if(session('suspend'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ session('suspend') }}</span>
+    </div>
+@endif
+@if(session('errormsg'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ session('errormsg') }}</span>
+    </div>
+@endif
 <div class="flex justify-between mx-7 pt-4">
                 <h2 class="text-2xl font-bold"></h2>
                 <div class="flex items-center gap-4">
-                    <div class="relative">
+                    
                         <x-button wire:click="exportUsersToCSV" class="px-5 py-2 text-white bg-green-500 rounded-md hover:bg-green-600">
                             <div class="flex items-center gap-2">
-                                <span class="flex items-center justify-center w-5 h-5 rounded-full bg-white text-green-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                                    </svg>
-                                </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
                                 <span>Export to CSV</span>
                             </div>
                         </x-button>
@@ -28,7 +37,7 @@
                                 <span>Add User</span>
                             </a>
                         </x-button>
-                    </div>
+                    
                 </div>
             </div>
     <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-md m-5">

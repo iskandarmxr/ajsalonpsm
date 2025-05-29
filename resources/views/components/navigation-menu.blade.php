@@ -251,6 +251,11 @@
                 </div>
 
                 <div class="mt-3 space-y-1">
+                @if(Auth::user()->role_id == UserRolesEnum::Customer->value)
+
+                    <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                                {{ __('Dashboard') }}
+                    </x-responsive-nav-link>
                     <x-responsive-nav-link href="{{ route('services') }}" :active="request()->routeIs('services')">
                         {{ __('Hair Services') }}
                     </x-responsive-nav-link>
@@ -258,6 +263,7 @@
                     <x-responsive-nav-link href="{{ route('hairstyles') }}" :active="request()->routeIs('hairstyles')">
                         {{ __('Hairstyles') }}
                     </x-responsive-nav-link>
+                @endif
                     <!-- Account Management -->
                     <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                         {{ __('Profile') }}

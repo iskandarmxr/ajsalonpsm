@@ -1,12 +1,12 @@
 <x-dashboard>
 
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create User') }}
-        </h2>
-    </x-slot>
+<header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-4 px-2 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-gray-900 text-center">Create Users</h2>
+        </div>
+    </header>
 
-    <div>
+    <div class="pt-4 pb-4">
         <form action="{{ route('users.store')}}" method="post" class="w-1/2 mx-auto bg-white rounded-lg p-5">
             @csrf
             <!-- Name -->
@@ -62,6 +62,15 @@
                 </x-button>
             </div>
         </form>
+    </div>
+    <div class="bg-pink-500 p-2 text-center">
+        <span class="text-white">© Copyright 2025</span>
+        <a
+            class="font-semibold text-white hover:text-gray-200 transition"
+            href="/admin/dashboard/"
+        >
+            AJ Hair Salon
+        </a>
     </div>
     
 </x-dashboard>

@@ -12,8 +12,8 @@ class TimeSlotSeeder extends Seeder
     public function run(): void
     {
 
-        $startTime = '09:00:00';
-        $endTime = '18:00:00';
+        $startTime = '11:00:00';
+        $endTime = '19:00:00';
 
         $startDateTime = new DateTime($startTime);
         $endDateTime = new DateTime($endTime);

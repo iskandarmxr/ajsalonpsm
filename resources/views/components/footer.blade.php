@@ -98,30 +98,25 @@
 
             <!-- Services section -->
             <div class="">
-            <h6
-                class="mb-4 flex justify-center font-semibold uppercase md:justify-start">
-                Services
-            </h6>
-            <p class="mb-4">
-                <a href="#!" class="text-neutral-600 dark:text-neutral-200"
-                >Hair</a
-                >
-            </p>
-            <p class="mb-4">
-                <a href="#!" class="text-neutral-600 dark:text-neutral-200"
-                >Nails</a
-                >
-            </p>
-            <p class="mb-4">
-                <a href="#!" class="text-neutral-600 dark:text-neutral-200"
-                >Skin</a
-                >
-            </p>
-            <p>
-                <a href="#!" class="text-neutral-600 dark:text-neutral-200"
-                >Makeup</a
-                >
-            </p>
+                <h6
+                    class="mb-4 flex justify-center font-semibold uppercase md:justify-start">
+                    Operating Hours
+                </h6>
+                <p class="mb-4 font-semibold">
+                    Monday : <span class="font-normal">10:30 AM - 07:30 PM</span>
+                </p>
+                <p class="mb-4 font-semibold">
+                    Tuesday : <span class="font-normal">CLOSED</span>
+                </p>
+                <p class="mb-4 font-semibold">
+                    Wednesday : <span class="font-normal">10:30 AM - 07:30 PM</span>
+                </p>
+                <p class="mb-4 font-semibold">
+                    Thursday : <span class="font-normal">10:30 AM - 07:30 PM</span>
+                </p>
+                <p class="mb-4 font-semibold">
+                    Friday : <span class="font-normal">10:30 AM - 07:30 PM</span>
+                </p>
             </div>
             <!-- Promotions section -->
             <div class="">
@@ -153,7 +148,7 @@
 
     <!--Copyright section-->
     <div class="bg-white p-2 text-center">
-    <span class="text-neutral-500">© 2025 Copyright:</span>
+    <span class="text-neutral-500">© Copyright 2025</span>
     <a
         class="font-semibold text-neutral-600"
         href="/"

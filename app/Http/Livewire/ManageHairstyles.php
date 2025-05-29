@@ -98,5 +98,39 @@ class ManageHairstyles extends Component
     {
         Hairstyle::find($id)->delete();
         session()->flash('message', 'Hairstyle deleted successfully.');
+        session()->flash('message_type', 'error');
+    }
+
+    public function exportToCsv()
+    {
+        $hairstyles = Hairstyle::with('category')->get();
+        
+        $filename = 'hairstyles-' . date('Y-m-d') . '.csv';
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0'
+        ];
+        
+        $callback = function() use ($hairstyles) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['ID', 'Name', 'Description', 'Category', 'Created At']);
+            
+            foreach ($hairstyles as $hairstyle) {
+                fputcsv($file, [
+                    $hairstyle->id,
+                    $hairstyle->name,
+                    $hairstyle->description,
+                    $hairstyle->category->name,
+                    $hairstyle->created_at
+                ]);
+            }
+            
+            fclose($file);
+        };
+        
+        return response()->stream($callback, 200, $headers);
     }
 }

@@ -1,7 +1,7 @@
 <div>
     <div>
-        <div class="flex justify-between mx-7">
-            <h2 class="text-2xl font-bold">Hairstyle Categories</h2>
+        <div class="flex justify-between mx-7 pt-4">
+            <h2 class="text-2xl font-bold"></h2>
 
             <x-button wire:click="confirmCategoryAdd" class="px-5 py-2 text-white bg-pink-500 rounded-md hover:bg-pink-600">
                 <div class="flex items-center gap-2">
@@ -22,10 +22,15 @@
         @endif
 
         <div class="overflow-auto rounded-lg border border-gray-200 shadow-md m-5">
-            <div class="w-1/3 float-right m-4">
+        <div class="w-full md:w-1/3 float-none md:float-right m-4">
+                <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
                 <div class="relative">
-                    <input type="search" wire:model="search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-pink-500 focus:border-pink-500" placeholder="Search Categories...">
-                </div>
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                        </svg>
+                    </div>
+                    <input type="search" wire:model="search" id="default-search" name="search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search Category...">                </div>
             </div>
 
             <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
@@ -95,8 +100,8 @@
 
             <x-slot name="footer">
                 <div class="flex justify-end gap-2">
-                    <x-secondary-button wire:click="$set('confirmingCategoryAdd', false)">Cancel</x-secondary-button>
-                    <x-button wire:click="saveCategory">Save</x-button>
+                    <x-secondary-button wire:click="$set('confirmingCategoryAdd', false)" onclick="setTimeout(function(){ window.location.reload(); }, 100);">Cancel</x-secondary-button>
+                    <x-button wire:click="saveCategory" onclick="setTimeout(function(){ window.location.reload(); }, 1000);">Save</x-button>
                 </div>
             </x-slot>
         </x-dialog-modal>

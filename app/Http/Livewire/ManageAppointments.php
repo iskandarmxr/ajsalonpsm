@@ -123,7 +123,12 @@ class ManageAppointments extends Component
             ->when($this->search, function ($query) {
                 $query->whereHas('user', function ($query) {
                     $query->where('name', 'like', '%' . $this->search . '%');
-                })->orWhereHas('service', function ($query) {
+                })
+                ->orWhereHas('service', function ($query) {
+                    $query->where('name', 'like', '%' . $this->search . '%');
+                })
+                ->orWhere('appointment_code', 'like', '%' . $this->search . '%')
+                ->orWhereHas('location', function ($query) {
                     $query->where('name', 'like', '%' . $this->search . '%');
                 });
             })
@@ -136,8 +141,11 @@ class ManageAppointments extends Component
             // For customers, always filter by their own ID
             $query->where('user_id', auth()->id());
         } else if ($this->userId) {
-            // For staff/managers, filter by selected user if provided
+            // For managers, filter by selected user if provided
             $query->where('user_id', $this->userId);
+        } else if(auth()->user()->role_id == UserRolesEnum::Staff->value) {
+            // For staff, show only appointments assigned to them
+            $query->where('assigned_staff_id', auth()->id());
         }
         
         $appointments = $query->with(['user', 'service', 'timeSlot', 'location'])
@@ -236,10 +244,12 @@ class ManageAppointments extends Component
     public function exportToCSV()
     {
         $appointments = $this->getFilteredAppointments();
+
+        $filename = 'aj-salon-appointments (' . date('Y-m-d') . ').csv';
         
         $headers = [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="appointments.csv"',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
             'Pragma' => 'no-cache',
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Expires' => '0'

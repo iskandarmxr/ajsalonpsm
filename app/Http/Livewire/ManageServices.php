@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ManageServices extends Component
 
@@ -105,6 +106,38 @@ class ManageServices extends Component
         $this->emit('servicesUpdated');
     }
 
+    public function exportToCsv()
+    {
+        $services = Service::with('category')->get();
+        
+        $filename = 'aj-salon-hairservices-' . date('Y-m-d') . '.csv';
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ];
+        
+        $callback = function() use ($services) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['ID', 'Name', 'Description', 'Price', 'Category', 'Status', 'Created At']);
+            
+            foreach ($services as $service) {
+                fputcsv($file, [
+                    $service->id,
+                    $service->name,
+                    $service->description,
+                    $service->price,
+                    $service->category ? $service->category->name : 'N/A',
+                    $service->is_hidden ? 'Hidden' : 'Visible',
+                    $service->created_at
+                ]);
+            }
+            
+            fclose($file);
+        };
+        
+        return response()->stream($callback, 200, $headers);
+    }
+
     public function mount()
     {
         if (!auth()->user() || auth()->user()->role->name !== 'Manager') {
@@ -164,7 +197,7 @@ class ManageServices extends Component
                 ]);
             }
     
-            session()->flash('message', isset($this->newService['id']) ? 'Service successfully updated.' : 'Service successfully added.');
+            session()->flash('message', isset($this->newService['id']) ? 'Hair service successfully updated.' : 'Hair service successfully added.');
             $this->confirmingServiceAdd = false;
             $this->reset(['newService', 'image']);
     

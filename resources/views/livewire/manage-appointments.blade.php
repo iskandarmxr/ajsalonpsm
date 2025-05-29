@@ -4,11 +4,6 @@
 ?>
 
 <div>
-<header class="bg-white shadow">
-        <div class="max-w-7xl mx-auto py-4 px-2 sm:px-6 lg:px-8">
-            <h2 class="text-2xl font-bold text-gray-900 text-center">Appointments Tracking</h2>
-        </div>
-    </header>
     <div>
         <div class="flex justify-between mx-7 pt-4">
             <h2 class="text-2xl font-bold">
@@ -58,7 +53,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
-                        Export CSV
+                        Export to CSV
                 </x-button>
                 @endif
             </div>
@@ -76,30 +71,40 @@
         </div>
 
         <div class="overflow-auto rounded-lg border border-gray-200 shadow-md m-5">
+            <div class="w-full md:w-1/3 float-none md:float-right m-4">
+                <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                        </svg>
+                    </div>
+                    <input type="search" wire:model="search" id="default-search" name="search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search Appointment...">                </div>
+            </div>
 
-            <div class="w-full m-4 flex">
-            <table id="appointmentsTable" class="w-full border-collapse bg-white text-left text-sm text-gray-500 overflow-x-scroll min-w-screen">
-                <thead class="bg-gray-50">
-                <tr>
-                    <th scope="col" class="pl-4 py-4 font-medium text-gray-900 border-r border-gray-200">Code</th>
-                    <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200">Service</th>
-                    <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200">Location</th>
-                    <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200">Date & Time Slot</th>
-                        @if(Auth::user()->role_id == UserRolesEnum::Manager->value || Auth::user()->role_id == UserRolesEnum::Staff->value)
-                            <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200">Customer Info</th>
+            <div class="w-full m-4 overflow-x-auto">
+                <table id="appointmentsTable" class="w-full border-collapse bg-white text-left text-sm text-gray-500 min-w-[800px] md:min-w-full">
+                    <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="pl-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap">Code</th>
+                        <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap">Service</th>
+                        <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap">Location</th>
+                        <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap">Date & Time Slot</th>
+                            @if(Auth::user()->role_id == UserRolesEnum::Manager->value || Auth::user()->role_id == UserRolesEnum::Staff->value)
+                                <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap">Customer Info</th>
+                            @endif
+                        @if(Auth::user()->role_id == UserRolesEnum::Manager->value || Auth::user()->role_id == UserRolesEnum::Staff->value || Auth::user()->role_id == UserRolesEnum::Customer->value)
+                        <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap">Status</th>
+                        @if(Auth::user()->role_id == UserRolesEnum::Manager->value || Auth::user()->role_id == UserRolesEnum::Customer->value)
+                            <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap">Staff</th>
+                            @if(Auth::user()->role_id == UserRolesEnum::Manager->value)
+                                <th scope="col" class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap">Action</th>
+                            @endif
                         @endif
-                    @if(Auth::user()->role_id == UserRolesEnum::Manager->value || Auth::user()->role_id == UserRolesEnum::Staff->value || Auth::user()->role_id == UserRolesEnum::Customer->value)
-                    <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200">Status</th>
-                    @if(Auth::user()->role_id == UserRolesEnum::Manager->value || Auth::user()->role_id == UserRolesEnum::Staff->value || Auth::user()->role_id == UserRolesEnum::Customer->value)
-                        <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200">Staff</th>
-                        @if(Auth::user()->role_id == UserRolesEnum::Manager->value)
-                            <th scope="col" class="px-4 py-4 font-medium text-gray-900">Action</th>
                         @endif
-                    @endif
-                    @endif
-                </tr>
-                </thead>
-                <tbody>
+                    </tr>
+                    </thead>
+                    <tbody>
                     @forelse($appointments as $appointment)
                         <tr class="border-b border-gray-200">
                             <td class="px-4 py-4 border-r border-gray-200">{{ $appointment->appointment_code }}</td>
@@ -151,7 +156,7 @@
                                         </span>
                                 </td>
                             @endif
-                                @if(Auth::user()->role_id == UserRolesEnum::Manager->value || Auth::user()->role_id == UserRolesEnum::Staff->value || Auth::user()->role_id == UserRolesEnum::Customer->value )
+                                @if(Auth::user()->role_id == UserRolesEnum::Manager->value || Auth::user()->role_id == UserRolesEnum::Customer->value )
                                 <td class="px-4 py-4 border-r border-gray-200">
                                     @if($appointment->assigned_staff)
                                         {{ $appointment->assigned_staff->name }}
@@ -243,11 +248,11 @@
 
                 <x-slot name="footer">
                     <div class="flex gap-3">
-                        <x-secondary-button wire:click="$set('showingAssignStaffModal', false)" wire:loading.attr="disabled">
+                        <x-secondary-button wire:click="$set('showingAssignStaffModal', false)" onclick="setTimeout(function(){ window.location.reload(); }, 100);" wire:loading.attr="disabled">
                             {{ __('Cancel') }}
                         </x-secondary-button>
 
-                        <x-button wire:click="assignStaff" wire:loading.attr="disabled">
+                        <x-button wire:click="assignStaff" onclick="setTimeout(function(){ window.location.reload(); }, 1000);" wire:loading.attr="disabled">
                             {{ __('Assign') }}
                         </x-button>
                     </div>

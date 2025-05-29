@@ -19,7 +19,7 @@ class UserSuspensionController extends Controller
 
             $user->status = 0;
             $user->save();
-            return redirect()->route('manageusers')->with('success', 'User suspended successfully.');
+            return redirect()->route('manageusers')->with('suspend', 'User suspended successfully.');
 
         } catch (Exception $e) {
             return redirect()->route('manageusers')->with('errormsg', 'User suspension failed.');
@@ -31,7 +31,7 @@ class UserSuspensionController extends Controller
             $user = User::findOrFail($id);
             $user->status = 1;
             $user->save();
-            return redirect()->route('manageusers')->with('success', 'User activated successfully.');
+            return redirect()->route('manageusers')->with('activate', 'User activated successfully.');
 
         } catch (Exception $e) {
             return redirect()->route('manageusers')->with('errormsg', 'User activation failed.');

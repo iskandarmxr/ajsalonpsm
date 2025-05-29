@@ -138,6 +138,16 @@
             </div>
         </div>
     </div>
+        <!--Copyright section-->
+        <div class="bg-pink-500 p-2 text-center">
+            <span class="text-white">© Copyright 2025</span>
+            <a
+                class="font-semibold text-white hover:text-gray-200 transition"
+                href="/admin/dashboard/"
+            >
+                AJ Hair Salon
+            </a>
+        </div>
 
     <script>
         function navigate(direction) {
