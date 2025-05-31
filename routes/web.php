@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminDashboardHomeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\LoyaltyProgramPageController;
 use App\Http\Controllers\ChatBotController;
 
 /*
@@ -29,6 +30,8 @@ Route::get('/', [App\Http\Controllers\HomePageController::class, 'index'])->name
 Route::get('/about', function () {
     return view('web.about');
 })->name('about');
+
+Route::get('/loyalty-program', [LoyaltyProgramPageController::class, 'show']);
 
 Route::get('/services', [App\Http\Controllers\DisplayService::class, 'index'])->name('services');
 Route::get('/services/{slug}', [App\Http\Controllers\DisplayService::class, 'show'])->name('view-service');

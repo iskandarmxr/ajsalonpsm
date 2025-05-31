@@ -96,6 +96,35 @@
 
             </div>
 
+            <!-- Promotions section -->
+            <div class="">
+            <h6
+                class="mb-4 flex justify-center font-semibold uppercase md:justify-start">
+            SITEMAP
+            </h6>
+            <p class="mb-4">
+                <a href="/loyalty-program" class="text-neutral-600 dark:text-neutral-200"
+                >Loyalty Program</a
+                >
+            </p>
+            <p class="mb-4">
+                <a href="/about" class="text-neutral-600 dark:text-neutral-200"
+                >About Us</a
+                >
+            </p>
+            <p class="mb-4">
+                <a href="/services" class="text-neutral-600 dark:text-neutral-200"
+                >Hair Services</a
+                >
+            </p>
+            <p class="mb-4">
+                <a href="{{ route('hairstyles') }}" class="text-neutral-600 dark:text-neutral-200"
+                >Hairstyles</a
+                >
+            </p>
+
+            </div>
+
             <!-- Services section -->
             <div class="">
                 <h6
@@ -117,29 +146,6 @@
                 <p class="mb-4 font-semibold">
                     Friday : <span class="font-normal">10:30 AM - 07:30 PM</span>
                 </p>
-            </div>
-            <!-- Promotions section -->
-            <div class="">
-            <h6
-                class="mb-4 flex justify-center font-semibold uppercase md:justify-start">
-            Promotions
-            </h6>
-            <p class="mb-4">
-                <a href="#!" class="text-neutral-600 dark:text-neutral-200"
-                >Special Offers</a
-                >
-            </p>
-            <p class="mb-4">
-                <a href="#!" class="text-neutral-600 dark:text-neutral-200"
-                >Loyalty Program</a
-                >
-            </p>
-            <p class="mb-4">
-                <a href="#!" class="text-neutral-600 dark:text-neutral-200"
-                >Loyalty teirs</a
-                >
-            </p>
-
             </div>
 
         </div>

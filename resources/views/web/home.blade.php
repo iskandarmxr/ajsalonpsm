@@ -47,31 +47,7 @@ Book Now      </a>
 
         {{-- <img class="w-full bg-cover" src="{{ asset('images\Salon2.jpg') }}" alt="Banner image"> --}}
         {{-- <div class="absolute right-1 top-5 font-black text-pink-600 text-7xl">30% OFF <br>THIS SEASON</div> --}}
- <div>
-    <div class="text-center text-4xl font-semibold text-pink-500 m-2 mt-5">Categories</div>
 
-    <div class="container flex gap-10 p-10 pt-3 justify-center mx-auto">
-      <a href="#" class="text-center gap-2 duration-300 hover:scale-105">
-          <img class="w-60 rounded-xl" src="{{ asset('images/hair.jpg')}}" alt="">
-          <span class="text-pink-500 text-2xl">Hair</span>
-      </a>
-      <a href="#" class="text-center gap-2 duration-300 hover:scale-105">
-        <img class="w-60 rounded-xl" src="{{ asset('images/nails.jpg')}}"  alt="">
-        <span class="text-pink-500 text-2xl">Nails</span>
-
-      </a>
-      <a href="#" class="text-center gap-2 duration-300 hover:scale-105">
-        <img class="w-60 rounded-xl" src="{{ asset('images/skin.jpg')}}" alt="">
-        <span class="text-pink-500 text-2xl">Skin</span>
-
-      </a>
-      <a href="#" class="text-center gap-2 duration-300 hover:scale-105">
-        <img class="w-60 rounded-xl" src="{{ asset('images/makeup.jpg')}}" alt="">
-        <span class="text-pink-500 text-2xl">Makeup</span>
-      </a>
-    </div>
-
-    </div>
 
     <section class="pt-5 bg-white">
       <div class="md:w-4/5 mx-auto">
