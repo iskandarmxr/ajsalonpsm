@@ -129,52 +129,33 @@
         @if(Auth::user()->role_id == UserRolesEnum::Manager->value)
         <!-- Sales Pie Chart Section -->
         <div class="p-4">
-            <div class="bg-white rounded-lg shadow-md p-6"">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-xl font-semibold">Total Sales Overview</h3>
-                
-                <div class="flex gap-2">
-                <button id="downloadPng" class="px-4 py-2 rounded bg-green-500 text-white font-semibold hover:bg-green-600 flex items-center justify-center" title="Download PNG">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" />
-                    </svg>
-                </button>                    
-                <button id="downloadPdf" class="px-4 py-2 rounded bg-blue-500 text-white font-semibold hover:bg-blue-600 flex items-center justify-center" title="Download PDF">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6H6zM13 3.5L18.5 9H13V3.5zM9 14v3H7v-3H4v-2h3V9h2v3h3v2H9z"/>
-                    </svg>
-                </button>                </div>
-            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold">Total Sales Overview</h3>
 
-                <!-- Filter Buttons -->
-                <div class="flex justify-center gap-4 mb-4">
-                    <button
-                        class="sales-filter-btn px-4 py-2 rounded bg-pink-500 text-white font-semibold hover:bg-pink-600"
-                        data-filter="today"
-                    >
-                        Today
-                    </button>
-                    <button
-                        class="sales-filter-btn px-4 py-2 rounded bg-pink-500 text-white font-semibold hover:bg-pink-600"
-                        data-filter="week"
-                    >
-                        This Week
-                    </button>
-                    <button
-                        class="sales-filter-btn px-4 py-2 rounded bg-pink-500 text-white font-semibold hover:bg-pink-600"
-                        data-filter="month"
-                    >
-                        This Month
-                    </button>
-                    <button
-                        class="sales-filter-btn px-4 py-2 rounded bg-pink-500 text-white font-semibold hover:bg-pink-600"
-                        data-filter="year"
-                    >
-                        This Year
-                    </button>
+                    <div class="flex gap-2">
+                        <button id="downloadPng" class="px-4 py-2 rounded bg-green-500 text-white font-semibold hover:bg-green-600 flex items-center justify-center" title="Download PNG">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" />
+                            </svg>
+                        </button>
+                        <button id="downloadPdf" class="px-4 py-2 rounded bg-blue-500 text-white font-semibold hover:bg-blue-600 flex items-center justify-center" title="Download PDF">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6H6zM13 3.5L18.5 9H13V3.5zM9 14v3H7v-3H4v-2h3V9h2v3h3v2H9z"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Pie Chart Canvas -->
+                <!-- Filter Buttons (Responsive & Scrollable) -->
+                <div class="flex gap-4 mb-4 overflow-x-auto no-scrollbar px-1 sm:justify-center">
+                    <button class="sales-filter-btn min-w-[70px] px-4 py-2 rounded bg-pink-500 text-white font-semibold hover:bg-pink-600" data-filter="today">Today</button>
+                    <button class="sales-filter-btn min-w-[70px] px-4 py-2 rounded bg-pink-500 text-white font-semibold hover:bg-pink-600" data-filter="week">This Week</button>
+                    <button class="sales-filter-btn min-w-[70px] px-4 py-2 rounded bg-pink-500 text-white font-semibold hover:bg-pink-600" data-filter="month">This Month</button>
+                    <button class="sales-filter-btn min-w-[70px] px-4 py-2 rounded bg-pink-500 text-white font-semibold hover:bg-pink-600" data-filter="year">This Year</button>
+                </div>
+
+                <!-- Pie Chart -->
                 <div class="max-w-md mx-auto">
                     <canvas id="salesPieChart"></canvas>
                 </div>

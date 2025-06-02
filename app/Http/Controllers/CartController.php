@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SendAppointmentConfirmationMailJob;
+use App\Jobs\SendNewAppointmentNotificationForManagerJob;
 use App\Enums\AppointmentStatusEnum;
 use App\Models\Appointment;
 use Illuminate\Support\Facades\DB;
@@ -202,6 +203,7 @@ class CartController extends Controller
         $customer = auth()->user();
         foreach ($appointments as $appointment) {
             SendAppointmentConfirmationMailJob::dispatch($customer, $appointment);
+            SendNewAppointmentNotificationForManagerJob::dispatch($appointment);
         }
     
         return redirect()->route('dashboard')->with('success', 'Your appointment has been booked successfully');
