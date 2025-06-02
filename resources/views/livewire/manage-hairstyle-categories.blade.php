@@ -22,7 +22,7 @@
         @endif
 
         <div class="overflow-auto rounded-lg border border-gray-200 shadow-md m-5">
-        <div class="w-full md:w-1/3 float-none md:float-right m-4">
+            <div class="w-full md:w-1/3 float-none md:float-right m-4">
                 <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">

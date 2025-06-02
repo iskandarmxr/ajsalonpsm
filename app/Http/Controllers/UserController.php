@@ -57,7 +57,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:8|max:255',
             'password_confirmation' => 'required|string|min:8|max:255|same:password',
-            'phone_number' => ['required', 'string', 'regex:/^[0-9]{10}$/', 'unique:users'],
+            'phone_number' => ['required', 'string', 'regex:/^[0-9]{9,11}$/', 'unique:users'],
             'role' => 'required|string|in:manager,staff,customer',
         ]);
 

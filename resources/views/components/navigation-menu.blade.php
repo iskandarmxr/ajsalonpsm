@@ -252,7 +252,12 @@
 
                 <div class="mt-3 space-y-1">
                 @if(Auth::user()->role_id == UserRolesEnum::Customer->value)
-
+                    <x-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
+                        {{ __('Home') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link href="{{ route('cart') }}" :active="request()->routeIs('cart')">
+                                {{ __('Cart') }}
+                    </x-responsive-nav-link>
                     <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                                 {{ __('Dashboard') }}
                     </x-responsive-nav-link>
@@ -269,11 +274,11 @@
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
 
-                    @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
+                    <!-- @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                         <x-responsive-nav-link href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">
                             {{ __('API Tokens') }}
                         </x-responsive-nav-link>
-                    @endif
+                    @endif -->
 
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}" x-data>

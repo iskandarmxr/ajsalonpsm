@@ -41,7 +41,8 @@ Route::get('/deals', [App\Http\Controllers\DisplayDeal::class, 'index'])->name('
 
 Route::get('/admin/dashboard', [AdminDashboardHomeController::class, 'index'])
     ->name('admin.dashboard')
-    ->middleware('validateRole:Manager,Staff');
+    ->middleware('validateRole:Manager');
+    
 
 // Users needs to be logged in for these routes
 Route::middleware([
@@ -158,6 +159,8 @@ Route::middleware([
                 Route::get('/cart', [CartController::class, 'index'])->name('cart');
                 Route::post('/cart/remove-item/{cart_service_id}', [CartController::class, 'removeItem'])->name('cart.remove-item');
                 Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+                Route::get('/cart/payment', [CartController::class, 'showPayment'])->name('cart.payment'); // New route
+                Route::post('/cart/process-payment', [CartController::class, 'processPayment'])->name('cart.process-payment'); // New route
             });
         });
     });

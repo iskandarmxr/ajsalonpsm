@@ -36,6 +36,10 @@ class ManageAppointments extends Component
     public $selectedStaffId;
     public $availableStaff = [];
 
+    public $showingReceiptModal = false;
+    public $currentReceiptPath = null;
+    public $currentReceiptType = null;
+
     private $timeNow;
 
     public $selectFilter = 'all'; // can be 'pending' , 'confirmed' , 'completed', 'rejected', 'cancelled'
@@ -239,6 +243,23 @@ class ManageAppointments extends Component
             $appointment->save();
             session()->flash('message', 'Staff unassigned successfully.');
         }
+    }
+
+    public function showReceiptModal($receiptPath)
+    {
+        $this->currentReceiptPath = $receiptPath;
+        
+        // Determine file type based on extension
+        $extension = pathinfo($receiptPath, PATHINFO_EXTENSION);
+        if (in_array(strtolower($extension), ['jpg', 'jpeg', 'png'])) {
+            $this->currentReceiptType = 'image';
+        } elseif (strtolower($extension) === 'pdf') {
+            $this->currentReceiptType = 'pdf';
+        } else {
+            $this->currentReceiptType = 'unknown';
+        }
+        
+        $this->showingReceiptModal = true;
     }
 
     public function exportToCSV()

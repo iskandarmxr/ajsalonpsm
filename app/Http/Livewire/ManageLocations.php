@@ -26,7 +26,7 @@ class ManageLocations extends Component
     protected $rules = [
         "location.name" => "required|string|max:255",
         "location.address" => "required|string|max:255",
-        "location.telephone_number" => "required|string|min_digits:10|max_digits:10",
+        "location.telephone_number" => "required|string|min_digits:9|max_digits:11",
         "location.status" => "required|boolean",
     ];
     public function render()

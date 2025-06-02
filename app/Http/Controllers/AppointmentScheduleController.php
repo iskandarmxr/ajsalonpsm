@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Enums\UserRolesEnum;
 
 class AppointmentScheduleController extends Controller
 {
@@ -13,10 +14,21 @@ class AppointmentScheduleController extends Controller
         $date = $request->query('date') ? Carbon::parse($request->query('date')) : Carbon::now();
         $view = $request->query('view', 'month'); // Default to month view
         
+        // Get the logged-in user
+        $user = auth()->user();
+        
+        // Base query with relationships
+        $query = Appointment::with(['user', 'service', 'timeSlot']);
+        
+        // If user is staff, only show their assigned appointments
+        if ($user->role_id === UserRolesEnum::Staff->value) {
+            $query->where('assigned_staff_id', $user->id);
+        }
+        
         if ($view === 'week') {
             $startOfWeek = $date->copy()->startOfWeek();
             $endOfWeek = $date->copy()->endOfWeek();
-            $appointments = Appointment::with(['user', 'service', 'timeSlot'])
+            $appointments = $query
                 ->whereBetween('date', [$startOfWeek, $endOfWeek])
                 ->orderBy('date')
                 ->orderBy('time_slot_id')
@@ -27,7 +39,7 @@ class AppointmentScheduleController extends Controller
         } else {
             $startOfMonth = $date->copy()->startOfMonth();
             $endOfMonth = $date->copy()->endOfMonth();
-            $appointments = Appointment::with(['user', 'service', 'timeSlot'])
+            $appointments = $query
                 ->whereBetween('date', [$startOfMonth, $endOfMonth])
                 ->orderBy('date')
                 ->orderBy('time_slot_id')

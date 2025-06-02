@@ -230,58 +230,57 @@
                 <div class="sidebar-content">
                     {{-- User Role 1= Admin, 2 = Employee --}}
                     @if(Auth::user()->role_id == UserRolesEnum::Customer->value)
-                    <a href="{{ route('home') }}" 
-                        class="sidebar-link {{ request()->routeIs('home') ? 'active' : '' }}">
-                        <i class="fas fa-chart-line"></i>
-                        <span class="hide-on-collapse">Home</span>
-                    </a>
-                    <a href="{{ route('appointments.history') }}" 
-                        class="sidebar-link {{ request()->routeIs('appointments.history') ? 'active' : '' }}">
-                        <i class="fas fa-clock"></i>
-                        <span class="hide-on-collapse">Appointment History</span>
-                    </a>
-                    <a href="{{ route('customer.loyalty') }}" 
-                        class="sidebar-link {{ request()->is('dashboard/loyalty') ? 'active' : '' }}">
-                        <i class="fas fa-coins"></i>
-                        <span class="hide-on-collapse">My Loyalty Points</span>
-                    </a>
+                        <a href="{{ route('appointments.history') }}" 
+                            class="sidebar-link {{ request()->routeIs('appointments.history') ? 'active' : '' }}">
+                            <i class="fas fa-clock"></i>
+                            <span class="hide-on-collapse">Appointment History</span>
+                        </a>
+                        <a href="{{ route('customer.loyalty') }}" 
+                            class="sidebar-link {{ request()->is('dashboard/loyalty') ? 'active' : '' }}">
+                            <i class="fas fa-coins"></i>
+                            <span class="hide-on-collapse">My Loyalty Points</span>
+                        </a>
                     @endif
 
-                    @if(Auth::user()->role_id == UserRolesEnum::Manager->value || Auth::user()->role_id == UserRolesEnum::Staff->value)
-                    <a href="{{ route('dashboard') }}" 
-                        class="sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-chart-line"></i>
-                        <span class="hide-on-collapse">Overview</span>
-                    </a>
-                    <div class="sidebar-divider hide-on-collapse">Manage</div>
-                    <a href="{{ route('appointment.schedule') }}" 
-                        class="sidebar-link {{ request()->is('dashboard/appointment-schedule') ? 'active' : '' }}">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span class="hide-on-collapse">Appointment Schedule</span>
-                    </a>
                     @if(Auth::user()->role_id == UserRolesEnum::Manager->value)
-                    <a href="{{ route('manageusers') }}" 
-                        class="sidebar-link {{ request()->is('dashboard/manage/users') ? 'active' : '' }}">
-                        <i class="fas fa-users"></i>
-                        <span class="hide-on-collapse">Users</span>
-                    </a>
+                        <a href="{{ route('dashboard') }}" 
+                            class="sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                            <i class="fas fa-chart-line"></i>
+                            <span class="hide-on-collapse">Overview</span>
+                        </a>
                     @endif
-                    <a href="{{ route('manageappointments') }}" 
-                        class="sidebar-link {{ request()->is('dashboard/manage/appointments') ? 'active' : '' }}">
-                        <i class="fas fa-calendar-check"></i>
-                        <span class="hide-on-collapse">Appointments</span>
-                    </a>
                     @if(Auth::user()->role_id == UserRolesEnum::Manager->value)
-                    <a href="{{ route('manageservices') }}" 
-                        class="sidebar-link {{ request()->is('dashboard/manage/services') ? 'active' : '' }}">
-                        <i class="fas fa-cut"></i>
-                        <span class="hide-on-collapse">Hair Services</span>
-                    </a>
-                    <a href="{{ route('managehairstyles') }}" 
-                        class="sidebar-link {{ request()->is('dashboard/manage/hairstyles') ? 'active' : '' }}">
-                        <i class="fas fa-paint-brush"></i>
-                        <span class="hide-on-collapse">Hairstyles</span>
-                    </a>
+                        <div class="sidebar-divider hide-on-collapse">Manage</div>
+                    @endif
+                    @if(Auth::user()->role_id == UserRolesEnum::Manager->value || Auth::user()->role_id == UserRolesEnum::Staff->value)
+                        <a href="{{ route('appointment.schedule') }}" 
+                            class="sidebar-link {{ request()->is('dashboard/appointment-schedule') ? 'active' : '' }}">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span class="hide-on-collapse">Appointment Schedule</span>
+                        </a>
+                        @if(Auth::user()->role_id == UserRolesEnum::Manager->value)
+                            <a href="{{ route('manageusers') }}" 
+                                class="sidebar-link {{ request()->is('dashboard/manage/users') ? 'active' : '' }}">
+                                <i class="fas fa-users"></i>
+                                <span class="hide-on-collapse">Users</span>
+                            </a>
+                        @endif
+                        <a href="{{ route('manageappointments') }}" 
+                            class="sidebar-link {{ request()->is('dashboard/manage/appointments') ? 'active' : '' }}">
+                            <i class="fas fa-calendar-check"></i>
+                            <span class="hide-on-collapse">Appointments</span>
+                        </a>
+                        @if(Auth::user()->role_id == UserRolesEnum::Manager->value)
+                            <a href="{{ route('manageservices') }}" 
+                                class="sidebar-link {{ request()->is('dashboard/manage/services') ? 'active' : '' }}">
+                                <i class="fas fa-cut"></i>
+                                <span class="hide-on-collapse">Hair Services</span>
+                            </a>
+                            <a href="{{ route('managehairstyles') }}" 
+                                class="sidebar-link {{ request()->is('dashboard/manage/hairstyles') ? 'active' : '' }}">
+                                <i class="fas fa-paint-brush"></i>
+                                <span class="hide-on-collapse">Hairstyles</span>
+                            </a>
                     @endif
                     
                     @if(Auth::user()->role_id == UserRolesEnum::Manager->value)

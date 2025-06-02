@@ -226,7 +226,7 @@
 
                             <div>
                                 <label for="cautions" class="block text-sm font-medium text-gray-700">Cautions</label>
-                                <textarea id="cautions" wire:model="newService.benefits"  class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+                                <textarea id="cautions" wire:model="newService.cautions"  class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
                                 @error('newService.cautions') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
                         </div>
@@ -262,6 +262,7 @@
                             <div class="col-span-2">
                                 <label class="block text-sm font-medium text-gray-700">Image</label>
                                 <input type="file" wire:model="image" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <input type="hidden" wire:model="newService.image" />
                                 @error('image') <span class="text-red-500">{{ $message }}</span>@enderror
 
                                 @if ($image)

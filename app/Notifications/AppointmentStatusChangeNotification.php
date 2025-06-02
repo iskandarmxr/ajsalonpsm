@@ -29,7 +29,6 @@ class AppointmentStatusChangeNotification extends Notification implements Should
     {
         return (new MailMessage)
             ->subject('Appointment Status Update - AJ Hair Salon 🔔')
-            ->from('noreply@salonbliss.com')
             ->greeting('Hello ' . $notifiable->name . '!')
             ->line('Your appointment status has been updated!')
             ->line('🧾 Appointment Code: ' . $this->appointment->appointment_code)

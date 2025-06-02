@@ -44,7 +44,7 @@ class ManageServices extends Component
             'newService.aftercare_tips' => 'nullable|string',
             'newService.cautions' => 'nullable|string',
             'newService.is_hidden' => 'boolean',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048'
+            'image' => 'nullable|sometimes|file|image|mimes:jpg,jpeg,png,svg,gif|max:2048'
         ];
     }
 
@@ -88,21 +88,16 @@ class ManageServices extends Component
 
 
     public function confirmServiceAdd() {
-
         $this->reset(['newService']);
-        $this->reset(['image']);
+        $this->image = null;  // Reset image to null, so no stale filename remains
         $this->confirmingServiceAdd = true;
-
-
     }
 
-    public function confirmServiceEdit( Service $newService ) {
-        $this->newService = $newService;
-
-        $this->image = $newService->image;
-
+    public function confirmServiceEdit( Service $service ) {
+        $this->newService = $service->toArray();
+        // Do NOT assign $this->image here, leave it null to mean no new upload yet
+        $this->image = null;
         $this->confirmingServiceAdd = true;
-
         $this->emit('servicesUpdated');
     }
 
@@ -154,10 +149,14 @@ class ManageServices extends Component
                 // Update existing service
                 $service = Service::findOrFail($this->newService['id']);
                 
-                if ($this->image && !is_string($this->image)) {
-                    // Handle new image upload
+                // Only update image if a new one is uploaded
+                if ($this->image) {
+                    // New file uploaded
                     $this->image->store('images', 'public');
                     $service->image = $this->image->hashName();
+                } else {
+                    // No new file, keep existing filename from $newService['image']
+                    $service->image = $this->newService['image'] ?? null;
                 }
                 
                 $service->update([
@@ -172,6 +171,7 @@ class ManageServices extends Component
                     'benefits' => $this->newService['benefits'] ?? null,
                     'aftercare_tips' => $this->newService['aftercare_tips'] ?? null,
                     'notes' => $this->newService['notes'] ?? null
+
                 ]);
             } else {
                 // Create new service
@@ -180,7 +180,7 @@ class ManageServices extends Component
                     $this->image->store('images', 'public');
                     $imageName = $this->image->hashName();
                 }
-    
+        
                 Service::create([
                     'name' => $this->newService['name'],
                     'slug' => \Str::slug($this->newService['name']),

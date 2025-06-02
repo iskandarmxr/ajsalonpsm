@@ -24,6 +24,7 @@ class Appointment extends Model
         'location_id',
         'total',
         'status',
+        'receipt_path',
     ];
 
     protected $casts = [

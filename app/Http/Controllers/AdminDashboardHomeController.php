@@ -17,10 +17,11 @@ class AdminDashboardHomeController extends Controller
 {
     public function index()
     {
-        $todayDate = Carbon::today()->toDateString();
+        $todayDate = Carbon::today()->format('j F, Y');
 
         $totalCustomers = User::where('role_id', UserRolesEnum::Customer->value)->count();
-        $totalEmployees = User::where('role_id', UserRolesEnum::Staff->value)->count();
+        $totalStaffs = User::where('role_id', UserRolesEnum::Staff->value)->count();
+        $totalManagers = User::where('role_id', UserRolesEnum::Manager->value)->count();
 
         // Add new appointment status counters
         $pendingAppointments = Appointment::where('status', AppointmentStatusEnum::Pending->value)->count();
@@ -51,7 +52,6 @@ class AdminDashboardHomeController extends Controller
 
         $bookingRevenueThisMonth = Appointment::where('created_at', '>', Carbon::today()->subMonth()->toDateTime())->where('status', '!=', 0)->sum('total');
         $bookingRevenueLastMonth = Appointment::where('created_at', '>', Carbon::today()->subMonths(2)->toDateTime())->where('created_at', '<', Carbon::today()->subMonth()->toDateTime())->where('status', '!=', 0)->sum('total');
-
         $percentageRevenueChangeLastMonth = 0;
         if ($bookingRevenueLastMonth != 0) {
             $percentageRevenueChangeLastMonth = ($bookingRevenueThisMonth - $bookingRevenueLastMonth) / $bookingRevenueLastMonth * 100;
@@ -86,11 +86,33 @@ class AdminDashboardHomeController extends Controller
             ->take(5)
             ->get();
 
+        // Total sales for today
+        $totalSalesToday = Appointment::where('status', AppointmentStatusEnum::Completed->value)
+            ->whereDate('date', Carbon::today())
+            ->sum('total');
+        
+        // Total sales for this week (starting Monday)
+        $totalSalesThisWeek = Appointment::where('status', AppointmentStatusEnum::Completed->value)
+            ->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+            ->sum('total');
+        
+        // Total sales for this month
+        $totalSalesThisMonth = Appointment::where('status', AppointmentStatusEnum::Completed->value)
+            ->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+            ->sum('total');
+        
+        // Total sales for this year
+        $totalSalesThisYear = Appointment::where('status', AppointmentStatusEnum::Completed->value)
+            ->whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
+            ->sum('total');
+
 
 
         return view('dashboard.admin-employee', [
+            'todayDate' => $todayDate,
             'totalCustomers' => $totalCustomers,
-            'totalEmployees' => $totalEmployees,
+            'totalStaffs' => $totalStaffs,
+            'totalManagers' => $totalManagers,
             'pendingAppointments' => $pendingAppointments,
             'confirmedAppointments' => $confirmedAppointments,
             'completedAppointments' => $completedAppointments,
@@ -113,6 +135,10 @@ class AdminDashboardHomeController extends Controller
             'locations' => $locations,
             'totalLocations' => $totalLocations,
             'recentAppointments' => $recentAppointments,
+            'totalSalesToday' => $totalSalesToday,
+            'totalSalesThisWeek' => $totalSalesThisWeek,
+            'totalSalesThisMonth' => $totalSalesThisMonth,
+            'totalSalesThisYear' => $totalSalesThisYear,
         ]);
     }
 }

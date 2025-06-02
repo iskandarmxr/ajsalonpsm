@@ -10,9 +10,10 @@ class DashboardHomeController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->role_id == UserRolesEnum::Manager->value || 
-            auth()->user()->role_id == UserRolesEnum::Staff->value) {
+        if (auth()->user()->role_id == UserRolesEnum::Manager->value) {
             return redirect()->route('admin.dashboard');
+        } else if (auth()->user()->role_id == UserRolesEnum::Staff->value) {
+            return redirect()->route('manageappointments');
         } else if (auth()->user()->role_id == UserRolesEnum::Customer->value) {
             return view('dashboard.appointments.history');
         }

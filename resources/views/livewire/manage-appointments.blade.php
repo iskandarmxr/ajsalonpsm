@@ -90,17 +90,19 @@
                         <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap">Service</th>
                         <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap">Location</th>
                         <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap">Date & Time Slot</th>
-                            @if(Auth::user()->role_id == UserRolesEnum::Manager->value || Auth::user()->role_id == UserRolesEnum::Staff->value)
-                                <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap">Customer Info</th>
-                            @endif
-                        @if(Auth::user()->role_id == UserRolesEnum::Manager->value || Auth::user()->role_id == UserRolesEnum::Staff->value || Auth::user()->role_id == UserRolesEnum::Customer->value)
-                        <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap">Status</th>
-                        @if(Auth::user()->role_id == UserRolesEnum::Manager->value || Auth::user()->role_id == UserRolesEnum::Customer->value)
-                            <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap">Staff</th>
-                            @if(Auth::user()->role_id == UserRolesEnum::Manager->value)
-                                <th scope="col" class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap">Action</th>
-                            @endif
+                        @if(Auth::user()->role_id == UserRolesEnum::Manager->value || Auth::user()->role_id == UserRolesEnum::Staff->value)
+                            <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap">Customer Info</th>
                         @endif
+                        @if(Auth::user()->role_id == UserRolesEnum::Manager->value || Auth::user()->role_id == UserRolesEnum::Staff->value || Auth::user()->role_id == UserRolesEnum::Customer->value)
+                            <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap">Status</th>
+                            @if(Auth::user()->role_id == UserRolesEnum::Manager->value || Auth::user()->role_id == UserRolesEnum::Customer->value)
+                                <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap">Staff</th>
+                                <!-- Add Receipt column for Manager and Customer -->
+                                <th scope="col" class="px-4 py-4 font-medium text-gray-900 border-r border-gray-200 whitespace-nowrap text-center">Receipt</th>
+                                @if(Auth::user()->role_id == UserRolesEnum::Manager->value)
+                                    <th scope="col" class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap">Action</th>
+                                @endif
+                            @endif
                         @endif
                     </tr>
                     </thead>
@@ -164,6 +166,20 @@
                                         <span class="text-gray-500">No staff assigned</span>
                                     @endif
                                 </td>
+                                <!-- Add Receipt cell -->
+                                <td class="px-4 py-4 border-r border-gray-200 text-center">
+                                    @if($appointment->receipt_path)
+                                        <button wire:click="showReceiptModal('{{ $appointment->receipt_path }}')" 
+                                                class="text-pink-500 hover:text-pink-600" 
+                                                title="View Receipt">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                            </svg>
+                                        </button>
+                                    @else
+                                        <span class="text-gray-500">No receipt</span>
+                                    @endif
+                                </td>
                                 @endif
                                 @if(Auth::user()->role_id == UserRolesEnum::Manager->value)
                                     <td class="px-4 py-4 justify-center items-center">
@@ -201,7 +217,53 @@
                 {{ $appointments->links() }}
             </div> -->
 
+            <!-- Receipt Viewer Modal -->
+            <x-dialog-modal wire:model="showingReceiptModal" maxWidth="3xl">
+                <x-slot name="title">
+                    {{ __('Payment Receipt') }}
+                </x-slot>
 
+                <x-slot name="content">
+                    <div class="mt-4 flex justify-center">
+                        @if($currentReceiptPath)
+                            @if($currentReceiptType === 'image')
+                                <img src="{{ asset('storage/' . $currentReceiptPath) }}" alt="Payment Receipt" class="max-w-full max-h-[70vh] object-contain">
+                            @elseif($currentReceiptType === 'pdf')
+                                <div class="w-full h-[100vh]">
+                                    <object data="{{ asset('storage/' . $currentReceiptPath) }}" type="application/pdf" width="100%" height="100%">
+                                        <p>It appears your browser doesn't support embedded PDFs. 
+                                        <a href="{{ asset('storage/' . $currentReceiptPath) }}" target="_blank" class="text-pink-500 hover:underline">Click here to download the PDF</a>.
+                                        </p>
+                                    </object>
+                                </div>
+                            @else
+                                <div class="text-center text-gray-600">
+                                    <p>Unable to preview this file type.</p>
+                                    <a href="{{ asset('storage/' . $currentReceiptPath) }}" target="_blank" class="text-pink-500 hover:underline">Download File</a>
+                                </div>
+                            @endif
+                        @else
+                            <div class="text-center text-gray-600">
+                                <p>No receipt available</p>
+                            </div>
+                        @endif
+                    </div>
+                </x-slot>
+
+                <x-slot name="footer">
+                    <div class="flex gap-3">
+                        <x-secondary-button wire:click="$set('showingReceiptModal', false)" onclick="setTimeout(function(){ window.location.reload(); }, 100);" wire:loading.attr="disabled">
+                            {{ __('Close') }}
+                        </x-secondary-button>
+                        
+                        @if($currentReceiptPath)
+                        <a href="{{ asset('storage/' . $currentReceiptPath) }}" download class="inline-flex items-center px-4 py-2 bg-pink-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-pink-700 focus:bg-pink-600 active:bg-pink-800 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                            {{ __('Download') }}
+                        </a>
+                        @endif
+                    </div>
+                </x-slot>
+            </x-dialog-modal>
 
             <x-dialog-modal wire:model="confirmingAppointmentCancellation">
                 <x-slot name="title">

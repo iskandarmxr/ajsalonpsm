@@ -142,7 +142,7 @@
 
                     <div>
                         <label for="telephone_number" class="block text-sm font-medium text-gray-700">Telephone Number</label>
-                        <input type="tel" wire:model="location.telephone_number" minlength="10" maxlength="10" id="name" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
+                        <input type="tel" wire:model="location.telephone_number" minlength="9" maxlength="11" id="name" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
                         @error('location.telephone_number') <span class="text-red-500">{{ $message }}</span>@enderror
                     </div>
 
