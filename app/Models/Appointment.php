@@ -7,6 +7,7 @@ use App\Enums\AppointmentStatusEnum;
 use App\Jobs\SendAppointmentConfirmationMailJob;
 use App\Jobs\SendNewServicePromoMailJob;
 use App\Jobs\SendAppointmentStatusChangeJob;
+use App\Jobs\SendStaffAssignmentNotificationJob;
 use App\Jobs\SendLoyaltyPointsEarnedJob;
 use Illuminate\Database\Eloquent\Model;
 
@@ -92,6 +93,24 @@ class Appointment extends Model
                     $oldStatus,
                     $newStatus
                 );
+            }
+
+            // Handle staff assignment changes
+            if ($appointment->isDirty('assigned_staff_id')) {
+                $newStaffId = $appointment->assigned_staff_id;
+                $oldStaffId = $appointment->getOriginal('assigned_staff_id');
+
+                // If there's a new staff assigned
+                if ($newStaffId) {
+                    $staff = User::find($newStaffId);
+                    SendStaffAssignmentNotificationJob::dispatch($staff, $appointment, true);
+                }
+
+                // If a staff was unassigned (had previous staff and now it's null or different)
+                if ($oldStaffId) {
+                    $oldStaff = User::find($oldStaffId);
+                    SendStaffAssignmentNotificationJob::dispatch($oldStaff, $appointment, false);
+                }
             }
         });   
     }
