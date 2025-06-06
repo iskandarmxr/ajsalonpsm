@@ -140,24 +140,24 @@ class ManageAppointments extends Component
                 $query->where('status', $this->selectFilter);
             });
             
-        // Apply user filtering based on role
+        // Apply user and location filtering based on role
         if (auth()->user()->role_id == UserRolesEnum::Customer->value) {
             // For customers, always filter by their own ID
             $query->where('user_id', auth()->id());
         } else if ($this->userId) {
-            // For managers, filter by selected user if provided
+            // For managers/staff, filter by selected user if provided
             $query->where('user_id', $this->userId);
         } else if(auth()->user()->role_id == UserRolesEnum::Staff->value) {
-            // For staff, show only appointments assigned to them
-            $query->where('assigned_staff_id', auth()->id());
+            // For staff, show only appointments assigned to them at their location
+            $query->where('assigned_staff_id', auth()->id())
+                  ->where('location_id', auth()->user()->location_id);
+        } else if(auth()->user()->role_id == UserRolesEnum::Manager->value) {
+            // For managers, show only appointments at their location
+            $query->where('location_id', auth()->user()->location_id);
         }
-        
-        $appointments = $query->with(['user', 'service', 'timeSlot', 'location'])
-            ->latest()
-            ->paginate(10);
 
         return view('livewire.manage-appointments', [
-            'appointments' => $appointments
+            'appointments' => $query->latest()->paginate(10)
         ]);
     }
 
@@ -209,7 +209,10 @@ class ManageAppointments extends Component
     public function showAssignStaffModal($appointmentId)
     {
         $this->selectedAppointmentId = $appointmentId;
+        $appointment = Appointment::find($appointmentId);
+        
         $this->availableStaff = User::where('role_id', UserRolesEnum::Staff->value)
+            ->where('location_id', $appointment->location_id)
             ->whereDoesntHave('assignedAppointments', function($query) {
                 $query->whereIn('status', [
                     AppointmentStatusEnum::Pending->value,
@@ -217,6 +220,7 @@ class ManageAppointments extends Component
                 ]);
             })
             ->get();
+        
         $this->showingAssignStaffModal = true;
     }
 

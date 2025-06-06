@@ -23,8 +23,10 @@ class SendNewAppointmentNotificationForManagerJob implements ShouldQueue
 
     public function handle(): void
     {
-        // Get all managers
-        $managers = User::where('role_id', UserRolesEnum::Manager->value)->get();
+        // Get managers for the specific location
+        $managers = User::where('role_id', UserRolesEnum::Manager->value)
+                       ->where('location_id', $this->appointment->location_id)
+                       ->get();
         
         $notification = new NewAppointmentNotificationForManager($this->appointment);
         

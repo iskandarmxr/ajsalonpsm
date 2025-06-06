@@ -48,13 +48,34 @@
             <!-- Role -->
             <div class="col-span-6 sm:col-span-4 my-2">
                 <x-label for="role" value="{{ __('Role') }}" />
-                <select name="role" id="role" class="border-gray-300 focus:border-pink-500 focus:ring-pink-500 rounded-md shadow-sm">
+                <select name="role" id="role" class="border-gray-300 focus:border-pink-500 focus:ring-pink-500 rounded-md shadow-sm" onchange="toggleLocationField()">
                     <option value="manager">Manager</option>
                     <option value="staff">Staff</option>
                     <option value="customer">Customer</option>
                 </select>
                 <x-input-error for="role" class="mt-2" />
             </div>
+
+            <!-- Location (for Manager and Staff only) -->
+            <div id="locationField" class="col-span-6 sm:col-span-4 my-2" style="display: none;">
+                <x-label for="location_id" value="{{ __('Branch Location') }}" />
+                <select name="location_id" id="location_id" class="border-gray-300 focus:border-pink-500 focus:ring-pink-500 rounded-md shadow-sm">
+                    @foreach(\App\Models\Location::where('status', true)->get() as $location)
+                        <option value="{{ $location->id }}">{{ $location->name }}</option>
+                    @endforeach
+                </select>
+                <x-input-error for="location_id" class="mt-2" />
+            </div>
+
+            <script>
+                function toggleLocationField() {
+                    const role = document.getElementById('role').value;
+                    const locationField = document.getElementById('locationField');
+                    locationField.style.display = (role === 'manager' || role === 'staff') ? 'block' : 'none';
+                }
+                // Call on page load to set initial state
+                toggleLocationField();
+            </script>
 
             <div class="flex items-center justify-end mt-4">
                 <x-button class="ml-4">

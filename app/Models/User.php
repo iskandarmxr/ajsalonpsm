@@ -88,5 +88,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Appointment::class, 'assigned_staff_id');
     }
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
 }
 

@@ -59,6 +59,7 @@ class UserController extends Controller
             'password_confirmation' => 'required|string|min:8|max:255|same:password',
             'phone_number' => ['required', 'string', 'regex:/^[0-9]{9,11}$/', 'unique:users'],
             'role' => 'required|string|in:manager,staff,customer',
+            'location_id' => 'nullable|exists:locations,id', // Add validation for location_id
         ]);
 
         if ($validator->fails()) {
@@ -79,13 +80,20 @@ class UserController extends Controller
         }
 
         try {
-            User::create([
+            $userData = [
                 'name' => $request['name'],
                 'email' => $request['email'],
                 'password' => Hash::make($request['password']),
                 'phone_number' => $request['phone_number'],
                 'role_id' => $role_id,
-            ]);
+            ];
+    
+            // Only add location_id if it's present in the request
+            if ($request->has('location_id') && ($role == 'staff' || $role == 'manager')) {
+                $userData['location_id'] = $request['location_id'];
+            }
+    
+            User::create($userData);
         } catch (Exception $e) {
             return redirect()->route('manageusers')->with('errormsg', 'User creation failed.');
         }
