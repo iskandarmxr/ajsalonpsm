@@ -37,7 +37,7 @@ class CustomerLoyaltyPoints extends Model
         $this->total_points_earned = ($this->total_points_earned ?? 0) + $points;
         $this->last_earned_at = now();
         $this->save();
-        $expiryDate = now()->addMonths(6);
+        $expiryDate = now()->addMonths(1);
         // Create transaction record
         LoyaltyTransaction::create([
             'user_id' => $this->user_id,

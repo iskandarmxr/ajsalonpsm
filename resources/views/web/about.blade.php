@@ -53,56 +53,6 @@
         </div>
     </section>
 
-    <!-- Meet Our Team Section -->
-    <section class="pt-5 pb-5 py-20">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Meet Our Expert Team</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Team Member 1 -->
-                <div class="card shadow-lg rounded-lg overflow-hidden">
-                    <div class="relative">
-                        <img src="{{ asset('images/team/stylist1.jpg') }}" alt="Team Member" class="w-full h-64 object-cover">
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                            <h3 class="text-xl font-bold text-white mb-1">Sarah Johnson</h3>
-                            <p class="text-pink-300">Master Stylist</p>
-                        </div>
-                    </div>
-                    <div class="p-6 bg-white">
-                        <p class="text-gray-600">Specializing in color transformations and precision cuts with over 10 years of experience.</p>
-                    </div>
-                </div>
-
-                <!-- Team Member 2 -->
-                <div class="card shadow-lg rounded-lg overflow-hidden">
-                    <div class="relative">
-                        <img src="{{ asset('images/team/stylist2.jpg') }}" alt="Team Member" class="w-full h-64 object-cover">
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                            <h3 class="text-xl font-bold text-white mb-1">Michael Chen</h3>
-                            <p class="text-pink-300">Creative Director</p>
-                        </div>
-                    </div>
-                    <div class="p-6 bg-white">
-                        <p class="text-gray-600">Award-winning stylist known for innovative styling and trending techniques.</p>
-                    </div>
-                </div>
-
-                <!-- Team Member 3 -->
-                <div class="card shadow-lg rounded-lg overflow-hidden">
-                    <div class="relative">
-                        <img src="{{ asset('images/team/stylist3.jpg') }}" alt="Team Member" class="w-full h-64 object-cover">
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                            <h3 class="text-xl font-bold text-white mb-1">Emily Rodriguez</h3>
-                            <p class="text-pink-300">Color Specialist</p>
-                        </div>
-                    </div>
-                    <div class="p-6 bg-white">
-                        <p class="text-gray-600">Expert in creating stunning, personalized color experiences for our clients.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Call to Action Section -->
     <section class="py-20 pt-3 pb-3 bg-pink-500 text-white">
         <div class="container mx-auto px-4 text-center">

@@ -100,7 +100,7 @@ Book Now      </a>
                 <img
                   alt="gallery"
                   class="block h-full w-full rounded-lg object-cover object-center"
-                  src="images/gallery/gallery1.jpg" />
+                  src="storage/images/gallery1.jpg" />
               </div>
             </div>
             <div class="flex w-1/3 flex-wrap">
@@ -108,7 +108,7 @@ Book Now      </a>
                 <img
                   alt="gallery"
                   class="block h-full w-full rounded-lg object-cover object-center"
-                  src="images/gallery/gallery2.jpg" />
+                  src="storage/images/gallery2.jpg" />
               </div>
             </div>
             <div class="flex w-1/3 flex-wrap">
@@ -116,7 +116,7 @@ Book Now      </a>
                 <img
                   alt="gallery"
                   class="block h-full w-full rounded-lg object-cover object-center"
-                  src="images/gallery/gallery3.jpg" />
+                  src="storage/images/gallery3.jpg" />
               </div>
             </div>
             <div class="flex w-1/3 flex-wrap">
@@ -124,7 +124,7 @@ Book Now      </a>
                 <img
                   alt="gallery"
                   class="block h-full w-full rounded-lg object-cover object-center"
-                  src="images/gallery/gallery4.jpg" />
+                  src="storage/images/gallery4.jpg" />
               </div>
             </div>
             <div class="flex w-1/3 flex-wrap">
@@ -132,7 +132,7 @@ Book Now      </a>
                 <img
                   alt="gallery"
                   class="block h-full w-full rounded-lg object-cover object-center"
-                  src="images/gallery/gallery5.jpg" />
+                  src="storage/images/gallery5.jpg" />
               </div>
             </div>
             <div class="flex w-1/3 flex-wrap">
@@ -140,7 +140,7 @@ Book Now      </a>
                 <img
                   alt="gallery"
                   class="block h-full w-full rounded-lg object-cover object-center"
-                  src="images/gallery/gallery6.jpg" />
+                  src="storage/images/gallery6.jpg" />
               </div>
             </div>
           </div>
